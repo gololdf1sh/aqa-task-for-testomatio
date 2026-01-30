@@ -1,24 +1,10 @@
 import { TestomatApi } from "../src/helpers/testomat.api.js";
-import {
-  MainPage,
-  LoginPage,
-  ProjectsPage,
-  ProjectPage,
-  SuitePage,
-  ManualRunPage,
-  ManualRunResultsPage,
-} from "../src/pages/index.js";
+import { Application } from "../src/index.js";
 
 Feature("AQA test task");
 
 let testomatApi;
-let mainPage;
-let loginPage;
-let projectsPage;
-let projectPage;
-let suitePage;
-let manualRunPage;
-let manualRunResultsPage;
+let app;
 
 let suiteId;
 let token;
@@ -39,13 +25,7 @@ let createdTestCasesNames = [];
 
 Before(async ({ I }) => {
   testomatApi = new TestomatApi(I, token, projectId);
-  mainPage = new MainPage(I);
-  loginPage = new LoginPage(I);
-  projectsPage = new ProjectsPage(I);
-  projectPage = new ProjectPage(I);
-  suitePage = new SuitePage(I, projectId);
-  manualRunPage = new ManualRunPage(I);
-  manualRunResultsPage = new ManualRunResultsPage(I);
+  app = new Application(I, projectId);
 
   const login = await testomatApi.login(generalApiToken, expectedStatus);
   testomatApi.token = `Bearer ${login.data.jwt}`;
@@ -62,37 +42,34 @@ Before(async ({ I }) => {
 
 Scenario("Test task scenario", async ({ I }) => {
   I.amOnPage("/");
-  await mainPage.goToLoginPage();
+  await app.mainPage.goToLoginPage();
 
   // TODO: Need to ask: How to verify that input contains expected value?
   // TODO: Why loginButton marked as input in DOM?
-  await loginPage.login(userEmail, userPassword);
-
+  await app.loginPage.login(userEmail, userPassword);
   // TODO: Rename ProjectsPage to DashboardPage
-  await projectsPage.checkThatSignedInSuccessfullyMessageIsVisible();
-  await projectsPage.openProjectByName(projectName);
-  await projectPage.openSuiteByName(suiteName);
+  await app.projectsPage.checkThatSignedInSuccessfullyMessageIsVisible();
+  await app.projectsPage.openProjectByName(projectName);
+  await app.projectPage.openSuiteByName(suiteName);
 
-  await suitePage.openMoreOptionsMenu();
-  await suitePage.clickRunTestsButton();
+  await app.suitePage.openMoreOptionsMenu();
+  await app.suitePage.clickRunTestsButton();
 
-  runId = await suitePage.runTestsAndGetRunId();
+  runId = await app.suitePage.runTestsAndGetRunId();
+  await app.manualRunPage.selectStatus("passed");
+  await app.manualRunPage.verifyStatus(userName, "passed");
 
-  await manualRunPage.selectStatus("passed");
-  await manualRunPage.verifyStatus(userName, "passed");
+  await app.manualRunPage.openTestCase(createdTestCasesNames[1]);
+  await app.manualRunPage.selectStatus("failed");
+  await app.manualRunPage.fillStatusMessage(statusMessage);
+  await app.manualRunPage.verifyStatus(userName, "failed", statusMessage);
 
-  await manualRunPage.openTestCase(createdTestCasesNames[1]);
-  await manualRunPage.selectStatus("failed");
-  await manualRunPage.fillStatusMessage(statusMessage);
-  await manualRunPage.verifyStatus(userName, "failed", statusMessage);
-
-  await manualRunPage.finishRun();
-
+  await app.manualRunPage.finishRun();
   //TODO: Figure out how to catch this flash popup
   // I.seeElement(locate("h2").withText("This run has finished!"));
 
-  await manualRunResultsPage.verifyFailedStatusIsVisible();
-  await manualRunResultsPage.verifyPieChartIsVisible();
+  await app.manualRunResultsPage.verifyFailedStatusIsVisible();
+  await app.manualRunResultsPage.verifyPieChartIsVisible();
 });
 
 After(async () => {
