@@ -19,7 +19,11 @@ export class ManualRunPage {
     return locate(".leading-tight").withText(testCaseName);
   }
 
-  private generateStatusMessageLocator(userName: string, status: string, statusMessage?: string) {
+  private generateStatusMessageLocator(
+    userName: string,
+    status: string,
+    statusMessage?: string,
+  ) {
     let locator = locate("li")
       .withText(status)
       .withText("by")

@@ -6,9 +6,9 @@ export class TestomatApi {
   ) {}
 
   async login(generalApiToken: string, expectedStatus: number) {
-    const response = await this.I.sendPostRequest("/login", {
+    const response = (await this.I.sendPostRequest("/login", {
       api_token: generalApiToken,
-    }) as any;
+    })) as any;
 
     if (response.status !== expectedStatus) {
       throw new Error(`Login failed. Status: ${response.status}`);
@@ -22,7 +22,7 @@ export class TestomatApi {
       Authorization: this.token,
     });
 
-    const response = await this.I.sendPostRequest(
+    const response = (await this.I.sendPostRequest(
       `/${this.projectId}/suites`,
       {
         data: {
@@ -33,7 +33,7 @@ export class TestomatApi {
           },
         },
       },
-    ) as any;
+    )) as any;
 
     if (response.status !== expectedStatus) {
       throw new Error(
@@ -53,7 +53,7 @@ export class TestomatApi {
       Authorization: this.token,
     });
 
-    const res = await this.I.sendPostRequest(`/${this.projectId}/tests`, {
+    const res = (await this.I.sendPostRequest(`/${this.projectId}/tests`, {
       data: {
         type: "tests",
         attributes: {
@@ -69,7 +69,7 @@ export class TestomatApi {
           },
         },
       },
-    }) as any;
+    })) as any;
 
     if (res.status !== expectedStatus) {
       throw new Error(
@@ -105,9 +105,9 @@ export class TestomatApi {
       Authorization: this.token,
     });
 
-    const response = await this.I.sendDeleteRequest(
+    const response = (await this.I.sendDeleteRequest(
       `/${this.projectId}/suites/${suiteId}`,
-    ) as any;
+    )) as any;
 
     if (response.status !== expectedStatus) {
       throw new Error(
@@ -123,9 +123,9 @@ export class TestomatApi {
       Authorization: this.token,
     });
 
-    const response = await this.I.sendDeleteRequest(
+    const response = (await this.I.sendDeleteRequest(
       `/${this.projectId}/runs/${runId}`,
-    ) as any;
+    )) as any;
 
     if (response.status !== expectedStatus) {
       throw new Error(
