@@ -1,7 +1,10 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
 
 export class MainPage {
-  constructor(I) {
+  private I: CodeceptJS.I;
+  private loginButton: CodeceptJS.Locator;
+
+  constructor(I: CodeceptJS.I) {
     this.I = I;
     this.loginButton = locate(".side-menu .login-item");
   }
@@ -10,6 +13,5 @@ export class MainPage {
     this.I.waitForElement(this.loginButton, timeouts.SHORT);
     this.I.seeElement(this.loginButton);
     this.I.click(this.loginButton);
-    this.I.waitForNavigation();
   }
 }

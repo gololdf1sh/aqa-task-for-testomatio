@@ -1,7 +1,11 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
 
 export class ManualRunResultsPage {
-  constructor(I) {
+  private I: CodeceptJS.I;
+  private runStatusFailed: CodeceptJS.Locator;
+  private pieChart: CodeceptJS.Locator;
+
+  constructor(I: CodeceptJS.I) {
     this.I = I;
     this.runStatusFailed = locate(".run-status.failed").withText("failed");
     this.pieChart = locate(".apexcharts-pie");

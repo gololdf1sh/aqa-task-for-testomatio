@@ -1,18 +1,17 @@
-import { timeouts } from "../data/timeouts.js";
 export class StartRunModal {
-  constructor(I, projectId) {
+  private I: CodeceptJS.I;
+  private projectId: string;
+  private launchButton: CodeceptJS.Locator;
+
+  constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;
     this.projectId = projectId;
 
     this.launchButton = locate("button").withText("Launch");
   }
 
-  async waitForVisible() {
-    await this.I.waitForElement(this.launchButton, timeouts.EXTRA_LONG);
-  }
-
   async launchRunAndCaptureRunId() {
-    let runId;
+    let runId: string;
 
     await this.I.usePlaywrightTo(
       "launch run and capture run id",

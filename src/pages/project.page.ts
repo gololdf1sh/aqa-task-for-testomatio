@@ -1,15 +1,17 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
 
 export class ProjectPage {
-  constructor(I) {
+  private I: CodeceptJS.I;
+
+  constructor(I: CodeceptJS.I) {
     this.I = I;
   }
 
-  async generateSuiteLocator(suiteName) {
+  async generateSuiteLocator(suiteName: string) {
     return locate("span").withText(`${suiteName}`);
   }
 
-  async openSuiteByName(suiteName) {
+  async openSuiteByName(suiteName: string) {
     let suiteLocator = await this.generateSuiteLocator(suiteName);
 
     this.I.waitForElement(suiteLocator, timeouts.SHORT);

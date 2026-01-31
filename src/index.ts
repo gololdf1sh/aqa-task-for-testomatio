@@ -6,10 +6,19 @@ import {
   SuitePage,
   ManualRunPage,
   ManualRunResultsPage,
-} from "../src/pages/index.js";
+} from "./pages/index";
 
 export class Application {
-  constructor(I, projectId) {
+  I: CodeceptJS.I;
+  mainPage: MainPage;
+  loginPage: LoginPage;
+  projectsPage: ProjectsPage;
+  projectPage: ProjectPage;
+  suitePage: SuitePage;
+  manualRunPage: ManualRunPage;
+  manualRunResultsPage: ManualRunResultsPage;
+
+  constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;
     this.mainPage = new MainPage(I);
     this.loginPage = new LoginPage(I);

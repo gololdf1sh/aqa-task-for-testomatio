@@ -1,14 +1,14 @@
-import { TestomatApi } from "../src/helpers/testomat.api.js";
-import { Application } from "../src/index.js";
+import { TestomatApi } from "../src/helpers/testomat.api";
+import { Application } from "../src/index";
 
 Feature("AQA test task");
 
-let testomatApi;
-let app;
+let testomatApi: TestomatApi;
+let app: Application;
 
-let suiteId;
-let token;
-let runId;
+let suiteId: string;
+let token: string;
+let runId: string;
 
 let generalApiToken = process.env.TESTOMAT_GENERAL_API_TOKEN;
 let userEmail = process.env.USER_EMAIL;

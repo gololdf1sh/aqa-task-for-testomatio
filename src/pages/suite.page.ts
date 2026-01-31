@@ -1,8 +1,15 @@
-import { timeouts } from "../data/timeouts.js";
-import { StartRunModal } from "../components/startRunModal.js";
+import { timeouts } from "../data/timeouts";
+import { StartRunModal } from "../components/startRunModal";
 
 export class SuitePage {
-  constructor(I, projectId) {
+  private I: CodeceptJS.I;
+  private projectId: string;
+  private startRunModal: StartRunModal;
+  private moreOptionsButton: CodeceptJS.Locator;
+  private moreOptionsMenu: CodeceptJS.Locator;
+  private runTestsButton: CodeceptJS.Locator;
+
+  constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;
     this.projectId = projectId;
     this.startRunModal = new StartRunModal(I, projectId);
@@ -29,7 +36,6 @@ export class SuitePage {
   }
 
   async runTestsAndGetRunId() {
-    await this.startRunModal.waitForVisible();
     return await this.startRunModal.launchRunAndCaptureRunId();
   }
 }

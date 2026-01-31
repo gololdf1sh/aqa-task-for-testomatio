@@ -1,6 +1,12 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
 export class ManualRunPage {
-  constructor(I) {
+  private I: CodeceptJS.I;
+  private passedButton: CodeceptJS.Locator;
+  private failedButton: CodeceptJS.Locator;
+  private finishRunButton: CodeceptJS.Locator;
+  private statusMessageInput: CodeceptJS.Locator;
+
+  constructor(I: CodeceptJS.I) {
     this.I = I;
 
     this.passedButton = locate(".cp-Panel-toggle button").withText("Passed");
@@ -9,11 +15,11 @@ export class ManualRunPage {
     this.statusMessageInput = locate('[placeholder="Result message"]');
   }
 
-  generateTestCaseLocator(testCaseName) {
+  generateTestCaseLocator(testCaseName: string) {
     return locate(".leading-tight").withText(testCaseName);
   }
 
-  generateStatusMessageLocator(userName, status, statusMessage) {
+  generateStatusMessageLocator(userName: string, status: string, statusMessage?: string) {
     let locator = locate("li")
       .withText(status)
       .withText("by")
@@ -26,7 +32,7 @@ export class ManualRunPage {
     return locator;
   }
 
-  async selectStatus(status) {
+  async selectStatus(status: string) {
     const button = status === "passed" ? this.passedButton : this.failedButton;
 
     await this.I.waitForElement(button, timeouts.SHORT);
@@ -34,14 +40,14 @@ export class ManualRunPage {
     await this.I.click(button);
   }
 
-  async openTestCase(testCaseName) {
+  async openTestCase(testCaseName: string) {
     const locator = this.generateTestCaseLocator(testCaseName);
     await this.I.waitForElement(locator, timeouts.SHORT);
     await this.I.seeElement(locator);
     await this.I.click(locator);
   }
 
-  async verifyStatus(userName, status, statusMessage) {
+  async verifyStatus(userName: string, status: string, statusMessage?: string) {
     const locator = this.generateStatusMessageLocator(
       userName,
       status,
@@ -51,7 +57,7 @@ export class ManualRunPage {
     await this.I.seeElement(locator);
   }
 
-  async fillStatusMessage(message) {
+  async fillStatusMessage(message: string) {
     await this.I.waitForElement(this.statusMessageInput, timeouts.SHORT);
     await this.I.seeElement(this.statusMessageInput);
     await this.I.fillField(this.statusMessageInput, message);
