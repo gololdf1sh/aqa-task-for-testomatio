@@ -1,13 +1,10 @@
 export class StartRunModal {
   private I: CodeceptJS.I;
   private projectId: string;
-  private launchButton: CodeceptJS.Locator;
 
   constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;
     this.projectId = projectId;
-
-    this.launchButton = locate("button").withText("Launch");
   }
 
   async launchRunAndCaptureRunId() {

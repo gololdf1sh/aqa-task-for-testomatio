@@ -2,8 +2,8 @@ import { timeouts } from "../data/timeouts";
 
 export class ManualRunResultsPage {
   private I: CodeceptJS.I;
-  private runStatusFailed: CodeceptJS.Locator;
-  private pieChart: CodeceptJS.Locator;
+  readonly runStatusFailed: CodeceptJS.Locator;
+  readonly pieChart: CodeceptJS.Locator;
 
   constructor(I: CodeceptJS.I) {
     this.I = I;

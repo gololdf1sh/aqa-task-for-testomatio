@@ -7,7 +7,7 @@ export class ProjectPage {
     this.I = I;
   }
 
-  async generateSuiteLocator(suiteName: string) {
+  private async generateSuiteLocator(suiteName: string) {
     return locate("span").withText(`${suiteName}`);
   }
 

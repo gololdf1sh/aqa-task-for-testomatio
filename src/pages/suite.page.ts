@@ -4,10 +4,10 @@ import { StartRunModal } from "../components/startRunModal";
 export class SuitePage {
   private I: CodeceptJS.I;
   private projectId: string;
-  private startRunModal: StartRunModal;
-  private moreOptionsButton: CodeceptJS.Locator;
-  private moreOptionsMenu: CodeceptJS.Locator;
-  private runTestsButton: CodeceptJS.Locator;
+  readonly startRunModal: StartRunModal;
+  readonly moreOptionsButton: CodeceptJS.Locator;
+  readonly moreOptionsMenu: CodeceptJS.Locator;
+  readonly runTestsButton: CodeceptJS.Locator;
 
   constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;

@@ -2,7 +2,7 @@ import { timeouts } from "../data/timeouts";
 
 export class ProjectsPage {
   private I: CodeceptJS.I;
-  private signedInSuccessfullyMessage: CodeceptJS.Locator;
+  readonly signedInSuccessfullyMessage: CodeceptJS.Locator;
 
   constructor(I: CodeceptJS.I) {
     this.I = I;
@@ -16,12 +16,12 @@ export class ProjectsPage {
     this.I.seeElement(this.signedInSuccessfullyMessage);
   }
 
-  async generateProjectCardLocator(projectName: string) {
+  private generateProjectCardLocator(projectName: string) {
     return locate("a").withAttr({ title: projectName });
   }
 
   async openProjectByName(projectName: string) {
-    const projectCard = await this.generateProjectCardLocator(projectName);
+    const projectCard = this.generateProjectCardLocator(projectName);
 
     this.I.waitForElement(projectCard, timeouts.SHORT);
     this.I.click(projectCard);
