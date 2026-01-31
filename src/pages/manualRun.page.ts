@@ -1,10 +1,10 @@
 import { timeouts } from "../data/timeouts";
 export class ManualRunPage {
   private I: CodeceptJS.I;
-  readonly passedButton: CodeceptJS.Locator;
-  readonly failedButton: CodeceptJS.Locator;
-  readonly finishRunButton: CodeceptJS.Locator;
-  readonly statusMessageInput: CodeceptJS.Locator;
+  readonly passedButton: CodeceptJS.ILocator;
+  readonly failedButton: CodeceptJS.ILocator;
+  readonly finishRunButton: CodeceptJS.ILocator;
+  readonly statusMessageInput: CodeceptJS.ILocator;
 
   constructor(I: CodeceptJS.I) {
     this.I = I;

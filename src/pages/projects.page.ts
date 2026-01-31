@@ -2,7 +2,7 @@ import { timeouts } from "../data/timeouts";
 
 export class ProjectsPage {
   private I: CodeceptJS.I;
-  readonly signedInSuccessfullyMessage: CodeceptJS.Locator;
+  readonly signedInSuccessfullyMessage: CodeceptJS.ILocator;
 
   constructor(I: CodeceptJS.I) {
     this.I = I;

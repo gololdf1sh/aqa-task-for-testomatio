@@ -2,9 +2,9 @@ import { timeouts } from "../data/timeouts";
 
 export class LoginPage {
   private I: CodeceptJS.I;
-  readonly emailInput: CodeceptJS.Locator;
-  readonly passwordInput: CodeceptJS.Locator;
-  readonly loginButton: CodeceptJS.Locator;
+  readonly emailInput: CodeceptJS.ILocator;
+  readonly passwordInput: CodeceptJS.ILocator;
+  readonly loginButton: CodeceptJS.ILocator;
 
   constructor(I: CodeceptJS.I) {
     this.I = I;

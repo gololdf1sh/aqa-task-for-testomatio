@@ -5,9 +5,9 @@ export class SuitePage {
   private I: CodeceptJS.I;
   private projectId: string;
   readonly startRunModal: StartRunModal;
-  readonly moreOptionsButton: CodeceptJS.Locator;
-  readonly moreOptionsMenu: CodeceptJS.Locator;
-  readonly runTestsButton: CodeceptJS.Locator;
+  readonly moreOptionsButton: CodeceptJS.ILocator;
+  readonly moreOptionsMenu: CodeceptJS.ILocator;
+  readonly runTestsButton: CodeceptJS.ILocator;
 
   constructor(I: CodeceptJS.I, projectId: string) {
     this.I = I;
