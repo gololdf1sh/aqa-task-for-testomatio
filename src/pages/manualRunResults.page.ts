@@ -1,15 +1,10 @@
 import { timeouts } from "../data/timeouts";
+import { BasePage } from "./base.page";
 
-export class ManualRunResultsPage {
-  private I: CodeceptJS.I;
-  readonly runStatusFailed: CodeceptJS.ILocator;
-  readonly pieChart: CodeceptJS.ILocator;
+export class ManualRunResultsPage extends BasePage {
+  readonly runStatusFailed: CodeceptJS.ILocator = locate(".run-status.failed").withText("failed");
+  readonly pieChart: CodeceptJS.ILocator = locate(".apexcharts-pie");
 
-  constructor(I: CodeceptJS.I) {
-    this.I = I;
-    this.runStatusFailed = locate(".run-status.failed").withText("failed");
-    this.pieChart = locate(".apexcharts-pie");
-  }
   async verifyFailedStatusIsVisible() {
     this.I.waitForElement(this.runStatusFailed, timeouts.SHORT);
     this.I.seeElement(this.runStatusFailed);

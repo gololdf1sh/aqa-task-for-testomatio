@@ -1,24 +1,20 @@
 import { timeouts } from "../data/timeouts";
 import { StartRunModal } from "../components/startRunModal";
+import { BasePage } from "./base.page";
 
-export class SuitePage {
-  private I: CodeceptJS.I;
+export class SuitePage extends BasePage {
   private projectId: string;
   readonly startRunModal: StartRunModal;
-  readonly moreOptionsButton: CodeceptJS.ILocator;
-  readonly moreOptionsMenu: CodeceptJS.ILocator;
-  readonly runTestsButton: CodeceptJS.ILocator;
+  readonly moreOptionsButton: CodeceptJS.ILocator = locate(
+    ".ember-basic-dropdown .md-icon-dots-horizontal",
+  );
+  readonly moreOptionsMenu: CodeceptJS.ILocator = locate("[data-ember-action]");
+  readonly runTestsButton: CodeceptJS.ILocator =
+    locate("button").withText("Run Tests");
 
   constructor(I: CodeceptJS.I, projectId: string) {
-    this.I = I;
-    this.projectId = projectId;
+    super(I);
     this.startRunModal = new StartRunModal(I, projectId);
-
-    this.moreOptionsButton = locate(
-      ".ember-basic-dropdown .md-icon-dots-horizontal",
-    );
-    this.moreOptionsMenu = locate("[data-ember-action]");
-    this.runTestsButton = locate("button").withText("Run Tests");
   }
 
   async openMoreOptionsMenu() {

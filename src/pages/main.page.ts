@@ -1,13 +1,8 @@
 import { timeouts } from "../data/timeouts";
+import { BasePage } from "./base.page";
 
-export class MainPage {
-  private I: CodeceptJS.I;
-  readonly loginButton: CodeceptJS.ILocator;
-
-  constructor(I: CodeceptJS.I) {
-    this.I = I;
-    this.loginButton = locate(".side-menu .login-item");
-  }
+export class MainPage extends BasePage {
+  readonly loginButton: CodeceptJS.ILocator = locate(".side-menu .login-item");
 
   async goToLoginPage() {
     this.I.waitForElement(this.loginButton, timeouts.SHORT);

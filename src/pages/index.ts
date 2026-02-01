@@ -1,4 +1,5 @@
-export * from "../../src/pages/login.page";
+export * from "./base.page";
+export * from "./login.page";
 export * from "./main.page";
 export * from "./manualRun.page";
 export * from "./manualRunResults.page";

@@ -1,11 +1,7 @@
 import { timeouts } from "../data/timeouts";
+import { BasePage } from "./base.page";
 
-export class ProjectPage {
-  private I: CodeceptJS.I;
-
-  constructor(I: CodeceptJS.I) {
-    this.I = I;
-  }
+export class ProjectPage extends BasePage {
 
   private async generateSuiteLocator(suiteName: string) {
     return locate("span").withText(`${suiteName}`);

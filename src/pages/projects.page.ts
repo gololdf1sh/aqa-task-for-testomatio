@@ -1,15 +1,10 @@
 import { timeouts } from "../data/timeouts";
+import { BasePage } from "./base.page";
 
-export class ProjectsPage {
-  private I: CodeceptJS.I;
-  readonly signedInSuccessfullyMessage: CodeceptJS.ILocator;
-
-  constructor(I: CodeceptJS.I) {
-    this.I = I;
-    this.signedInSuccessfullyMessage = locate(".common-flash-success").withText(
+export class ProjectsPage extends BasePage {
+  readonly signedInSuccessfullyMessage: CodeceptJS.ILocator = locate(".common-flash-success").withText(
       "Signed in successfully",
-    );
-  }
+    );;
 
   async checkThatSignedInSuccessfullyMessageIsVisible() {
     this.I.waitForElement(this.signedInSuccessfullyMessage, timeouts.SHORT);
