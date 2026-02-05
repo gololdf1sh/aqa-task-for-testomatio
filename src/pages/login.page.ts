@@ -2,9 +2,9 @@ import { timeouts } from "../data/timeouts";
 import { BasePage } from "./index";
 
 export class LoginPage extends BasePage {
-  readonly emailInput: CodeceptJS.ILocator = locate("#user_email");
-  readonly passwordInput: CodeceptJS.ILocator = locate("#user_password");
-  readonly loginButton: CodeceptJS.ILocator = locate("[type='submit']");
+  readonly emailInput: CodeceptJS.Locator = locate("#user_email");
+  readonly passwordInput: CodeceptJS.Locator = locate("#user_password");
+  readonly loginButton: CodeceptJS.Locator = locate("[type='submit']");
 
   async login(userEmail: string, userPassword: string) {
     await this.fillUserEmail(userEmail);

@@ -5,11 +5,11 @@ import { BasePage } from "./base.page";
 export class SuitePage extends BasePage {
   private projectId: string;
   readonly startRunModal: StartRunModal;
-  readonly moreOptionsButton: CodeceptJS.ILocator = locate(
+  readonly moreOptionsButton: CodeceptJS.Locator = locate(
     ".ember-basic-dropdown .md-icon-dots-horizontal",
   );
-  readonly moreOptionsMenu: CodeceptJS.ILocator = locate("[data-ember-action]");
-  readonly runTestsButton: CodeceptJS.ILocator =
+  readonly moreOptionsMenu: CodeceptJS.Locator = locate("[data-ember-action]");
+  readonly runTestsButton: CodeceptJS.Locator =
     locate("button").withText("Run Tests");
 
   constructor(I: CodeceptJS.I, projectId: string) {

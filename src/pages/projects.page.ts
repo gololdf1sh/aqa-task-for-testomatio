@@ -2,7 +2,7 @@ import { timeouts } from "../data/timeouts";
 import { BasePage } from "./base.page";
 
 export class ProjectsPage extends BasePage {
-  readonly signedInSuccessfullyMessage: CodeceptJS.ILocator = locate(".common-flash-success").withText(
+  readonly signedInSuccessfullyMessage: CodeceptJS.Locator = locate(".common-flash-success").withText(
       "Signed in successfully",
     );;
 

@@ -2,10 +2,10 @@ import { timeouts } from "../data/timeouts";
 import { BasePage } from "./base.page";
 
 export class ManualRunPage extends BasePage {
-  readonly passedButton: CodeceptJS.ILocator = locate(".cp-Panel-toggle button").withText("Passed");
-  readonly failedButton: CodeceptJS.ILocator = locate(".cp-Panel-toggle button").withText("Failed");
-  readonly finishRunButton: CodeceptJS.ILocator = locate("button").withText("Finish Run");
-  readonly statusMessageInput: CodeceptJS.ILocator = locate('[placeholder="Result message"]');
+  readonly passedButton: CodeceptJS.Locator = locate(".cp-Panel-toggle button").withText("Passed");
+  readonly failedButton: CodeceptJS.Locator = locate(".cp-Panel-toggle button").withText("Failed");
+  readonly finishRunButton: CodeceptJS.Locator = locate("button").withText("Finish Run");
+  readonly statusMessageInput: CodeceptJS.Locator = locate('[placeholder="Result message"]');
 
   private generateTestCaseLocator(testCaseName: string) {
     return locate(".leading-tight").withText(testCaseName);
