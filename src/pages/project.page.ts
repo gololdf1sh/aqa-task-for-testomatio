@@ -1,15 +1,13 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
+import { BasePage } from "./base.page";
 
-export class ProjectPage {
-  constructor(I) {
-    this.I = I;
-  }
+export class ProjectPage extends BasePage {
 
-  async generateSuiteLocator(suiteName) {
+  private async generateSuiteLocator(suiteName: string) {
     return locate("span").withText(`${suiteName}`);
   }
 
-  async openSuiteByName(suiteName) {
+  async openSuiteByName(suiteName: string) {
     let suiteLocator = await this.generateSuiteLocator(suiteName);
 
     this.I.waitForElement(suiteLocator, timeouts.SHORT);

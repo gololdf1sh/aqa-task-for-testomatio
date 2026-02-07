@@ -1,34 +1,32 @@
-import { timeouts } from "../data/timeouts.js";
+import { timeouts } from "../data/timeouts";
+import { BasePage } from "./index";
 
-export class LoginPage {
-  constructor(I) {
-    this.I = I;
-    this.emailInput = locate("#user_email");
-    this.passwordInput = locate("#user_password");
-    this.loginButton = locate("[type='submit']"); // TODO: Why marked as input?
-  }
+export class LoginPage extends BasePage {
+  readonly emailInput: CodeceptJS.Locator = locate("#user_email");
+  readonly passwordInput: CodeceptJS.Locator = locate("#user_password");
+  readonly loginButton: CodeceptJS.Locator = locate("[type='submit']");
 
-  async login(userEmail, userPassword) {
+  async login(userEmail: string, userPassword: string) {
     await this.fillUserEmail(userEmail);
     await this.fillUserPassword(userPassword);
     await this.clickLoginButton();
   }
 
-  async fillUserEmail(userEmail) {
+  private async fillUserEmail(userEmail: string) {
     this.I.waitForElement(this.emailInput, timeouts.SHORT);
     this.I.seeElement(this.emailInput);
     this.I.click(this.emailInput);
     this.I.type(userEmail);
   }
 
-  async fillUserPassword(userPassword) {
+  private async fillUserPassword(userPassword: string) {
     this.I.waitForElement(this.passwordInput, timeouts.SHORT);
     this.I.seeElement(this.passwordInput);
     this.I.click(this.passwordInput);
     this.I.type(userPassword);
   }
 
-  async clickLoginButton() {
+  private async clickLoginButton() {
     this.I.waitForElement(this.loginButton, timeouts.SHORT);
     this.I.seeElement(this.loginButton);
     this.I.click(this.loginButton);
