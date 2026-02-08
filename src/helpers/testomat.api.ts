@@ -4,7 +4,7 @@ class TestomatApi {
   private projectId: string;
 
   constructor() {
-    const projectId = process.env.TESTOMAT_PROJECT_ID;
+    this.projectId = process.env.TESTOMAT_PROJECT_ID;
   }
 
   async login(generalApiToken: string, expectedStatus: number) {
