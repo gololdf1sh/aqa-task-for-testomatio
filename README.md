@@ -1,4 +1,3 @@
-## To see possible future improvements, please review this PR - [[Will not be merged until review] Possible future improvements](https://github.com/gololdf1sh/aqa-task-for-testomatio/pull/3)
 
 ## 🎥 Test Execution Demo
 
