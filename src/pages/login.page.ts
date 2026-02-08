@@ -1,7 +1,8 @@
 import { timeouts } from "../data/timeouts";
-import { BasePage } from "./index";
 
-export class LoginPage extends BasePage {
+const { I } = inject();
+
+class LoginPage {
   readonly emailInput: CodeceptJS.Locator = locate("#user_email");
   readonly passwordInput: CodeceptJS.Locator = locate("#user_password");
   readonly loginButton: CodeceptJS.Locator = locate("[type='submit']");
@@ -13,22 +14,27 @@ export class LoginPage extends BasePage {
   }
 
   private async fillUserEmail(userEmail: string) {
-    this.I.waitForElement(this.emailInput, timeouts.SHORT);
-    this.I.seeElement(this.emailInput);
-    this.I.click(this.emailInput);
-    this.I.type(userEmail);
+    I.waitForElement(this.emailInput, timeouts.SHORT);
+    I.seeElement(this.emailInput);
+    I.click(this.emailInput);
+    I.type(userEmail);
   }
 
   private async fillUserPassword(userPassword: string) {
-    this.I.waitForElement(this.passwordInput, timeouts.SHORT);
-    this.I.seeElement(this.passwordInput);
-    this.I.click(this.passwordInput);
-    this.I.type(userPassword);
+    I.waitForElement(this.passwordInput, timeouts.SHORT);
+    I.seeElement(this.passwordInput);
+    I.click(this.passwordInput);
+    I.type(userPassword);
   }
 
   private async clickLoginButton() {
-    this.I.waitForElement(this.loginButton, timeouts.SHORT);
-    this.I.seeElement(this.loginButton);
-    this.I.click(this.loginButton);
+    I.waitForElement(this.loginButton, timeouts.SHORT);
+    I.seeElement(this.loginButton);
+    I.click(this.loginButton);
   }
 }
+
+module.exports = new LoginPage();
+module.exports.LoginPage = LoginPage;
+
+export {};

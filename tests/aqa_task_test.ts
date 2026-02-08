@@ -1,11 +1,3 @@
-import { TestomatApi } from "../src/helpers/testomat.api";
-import { Application } from "../src/index";
-
-Feature("AQA test task");
-
-let testomatApi: TestomatApi;
-let app: Application;
-
 let suiteId: string;
 let token: string;
 let runId: string;
@@ -23,61 +15,75 @@ let statusMessage = "Test Message";
 let expectedStatus = 200;
 let createdTestCasesNames = [];
 
-Before(async ({ I }) => {
-  testomatApi = new TestomatApi(I, token, projectId);
-  app = new Application(I, projectId);
+//TODO: Global or Local inject? And why?
 
+Feature("AQA test task");
+
+Before(async ({ I, testomatApi }) => {
   const login = await testomatApi.login(generalApiToken, expectedStatus);
-  testomatApi.token = `Bearer ${login.data.jwt}`;
+  token = `Bearer ${login.data.jwt}`;
 
-  const createSuite = await testomatApi.createSuite(suiteName, expectedStatus);
+  const createSuite = await testomatApi.createSuite(
+    token,
+    suiteName,
+    expectedStatus,
+  );
   suiteId = createSuite.data.data.id;
 
   createdTestCasesNames = await testomatApi.createSettedCountOfTests(
+    token,
     suiteId,
     countOfTestsToCreate,
     expectedStatus,
   );
+
+  I.amOnPage("/");
 });
 
-Scenario("Test task scenario", async ({ I }) => {
-  I.amOnPage("/");
-  await app.mainPage.goToLoginPage();
+Scenario("Test task scenario", async ({
+  mainPage,
+  loginPage,
+  projectsPage,
+  projectPage,
+  suitePage,
+  manualRunPage,
+  manualRunResultsPage,
+}) => {
+  await mainPage.goToLoginPage();
 
   // TODO: Need to ask: How to verify that input contains expected value?
   // TODO: Why loginButton marked as input in DOM?
-  await app.loginPage.login(userEmail, userPassword);
+  await loginPage.login(userEmail, userPassword);
+
   // TODO: Rename ProjectsPage to DashboardPage
-  await app.projectsPage.checkThatSignedInSuccessfullyMessageIsVisible();
-  await app.projectsPage.openProjectByName(projectName);
-  await app.projectPage.openSuiteByName(suiteName);
+  await projectsPage.checkThatSignedInSuccessfullyMessageIsVisible();
+  await projectsPage.openProjectByName(projectName);
+  await projectPage.openSuiteByName(suiteName);
 
-  await app.suitePage.openMoreOptionsMenu();
-  await app.suitePage.clickRunTestsButton();
+  await suitePage.openMoreOptionsMenu();
+  await suitePage.clickRunTestsButton();
+  runId = await suitePage.runTestsAndGetRunId();
 
-  runId = await app.suitePage.runTestsAndGetRunId();
-  await app.manualRunPage.selectStatus("passed");
-  await app.manualRunPage.verifyStatus(userName, "passed");
-
-  await app.manualRunPage.openTestCase(createdTestCasesNames[1]);
-  await app.manualRunPage.selectStatus("failed");
-  await app.manualRunPage.fillStatusMessage(statusMessage);
-  await app.manualRunPage.verifyStatus(userName, "failed", statusMessage);
-
-  await app.manualRunPage.finishRun();
+  await manualRunPage.selectStatus("passed");
+  await manualRunPage.verifyStatus(userName, "passed");
+  await manualRunPage.openTestCase(createdTestCasesNames[1]);
+  await manualRunPage.selectStatus("failed");
+  await manualRunPage.fillStatusMessage(statusMessage);
+  await manualRunPage.verifyStatus(userName, "failed", statusMessage);
+  await manualRunPage.finishRun();
   //TODO: Figure out how to catch this flash popup
   // I.seeElement(locate("h2").withText("This run has finished!"));
 
-  await app.manualRunResultsPage.verifyFailedStatusIsVisible();
-  await app.manualRunResultsPage.verifyPieChartIsVisible();
+  await manualRunResultsPage.verifyFailedStatusIsVisible();
+  await manualRunResultsPage.verifyPieChartIsVisible();
 });
 
-After(async () => {
+After(async ({ testomatApi }) => {
   if (!suiteId) return;
 
-  await testomatApi.deleteSuiteById(suiteId, expectedStatus);
+  await testomatApi.deleteSuiteById(token, suiteId, expectedStatus);
 
   if (runId) {
-    await testomatApi.deleteRunById(runId, expectedStatus);
+    await testomatApi.deleteRunById(token, runId, expectedStatus);
   }
 });

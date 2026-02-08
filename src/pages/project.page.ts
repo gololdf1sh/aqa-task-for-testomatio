@@ -1,17 +1,25 @@
 import { timeouts } from "../data/timeouts";
-import { BasePage } from "./base.page";
 
-export class ProjectPage extends BasePage {
+const { I } = inject();
 
-  private async generateSuiteLocator(suiteName: string) {
+class ProjectPage {
+  private generateSuiteLocator(suiteName: string) {
     return locate("span").withText(`${suiteName}`);
   }
 
   async openSuiteByName(suiteName: string) {
-    let suiteLocator = await this.generateSuiteLocator(suiteName);
+    I.refreshPage();
+    I.wait(1);
+    
+    const suiteLocator = this.generateSuiteLocator(suiteName);
 
-    this.I.waitForElement(suiteLocator, timeouts.SHORT);
-    this.I.seeElement(suiteLocator);
-    this.I.click(suiteLocator);
+    I.waitForElement(suiteLocator, timeouts.SHORT);
+    I.seeElement(suiteLocator);
+    I.click(suiteLocator);
   }
 }
+
+module.exports = new ProjectPage();
+module.exports.ProjectPage = ProjectPage;
+
+export {};

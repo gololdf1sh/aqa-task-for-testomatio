@@ -1,14 +1,15 @@
 import { timeouts } from "../data/timeouts";
-import { BasePage } from "./base.page";
 
-export class ProjectsPage extends BasePage {
+const { I } = inject();
+
+class ProjectsPage {
   readonly signedInSuccessfullyMessage: CodeceptJS.Locator = locate(".common-flash-success").withText(
       "Signed in successfully",
     );;
 
   async checkThatSignedInSuccessfullyMessageIsVisible() {
-    this.I.waitForElement(this.signedInSuccessfullyMessage, timeouts.SHORT);
-    this.I.seeElement(this.signedInSuccessfullyMessage);
+    I.waitForElement(this.signedInSuccessfullyMessage, timeouts.SHORT);
+    I.seeElement(this.signedInSuccessfullyMessage);
   }
 
   private generateProjectCardLocator(projectName: string) {
@@ -18,7 +19,12 @@ export class ProjectsPage extends BasePage {
   async openProjectByName(projectName: string) {
     const projectCard = this.generateProjectCardLocator(projectName);
 
-    this.I.waitForElement(projectCard, timeouts.SHORT);
-    this.I.click(projectCard);
+    I.waitForElement(projectCard, timeouts.SHORT);
+    I.click(projectCard);
   }
 }
+
+module.exports = new ProjectsPage();
+module.exports.ProjectsPage = ProjectsPage;
+
+export {};

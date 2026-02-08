@@ -1,14 +1,16 @@
-export class TestomatApi {
-  constructor(
-    private I: CodeceptJS.I,
-    public token: string,
-    private projectId: string,
-  ) {}
+const { I } = inject();
+
+class TestomatApi {
+  private projectId: string;
+
+  constructor() {
+    this.projectId = process.env.TESTOMAT_PROJECT_ID || "";
+  }
 
   async login(generalApiToken: string, expectedStatus: number) {
-    const response = (await this.I.sendPostRequest("/login", {
+    const response = (await I.sendPostRequest("/login", {
       api_token: generalApiToken,
-    })) as any;
+    }));
 
     if (response.status !== expectedStatus) {
       throw new Error(`Login failed. Status: ${response.status}`);
@@ -17,12 +19,12 @@ export class TestomatApi {
     return response;
   }
 
-  async createSuite(suiteName: string, expectedStatus: number) {
-    this.I.haveRequestHeaders({
-      Authorization: this.token,
+  async createSuite(token: string, suiteName: string, expectedStatus: number) {
+    I.haveRequestHeaders({
+      Authorization: token,
     });
 
-    const response = (await this.I.sendPostRequest(
+    const response = (await I.sendPostRequest(
       `/${this.projectId}/suites`,
       {
         data: {
@@ -33,7 +35,7 @@ export class TestomatApi {
           },
         },
       },
-    )) as any;
+    ));
 
     if (response.status !== expectedStatus) {
       throw new Error(
@@ -45,15 +47,16 @@ export class TestomatApi {
   }
 
   async createTestCase(
+    token: string,
     suiteId: string,
     testName: string,
     expectedStatus: number,
   ) {
-    this.I.haveRequestHeaders({
-      Authorization: this.token,
+    I.haveRequestHeaders({
+      Authorization: token,
     });
 
-    const res = (await this.I.sendPostRequest(`/${this.projectId}/tests`, {
+    const res = (await I.sendPostRequest(`/${this.projectId}/tests`, {
       data: {
         type: "tests",
         attributes: {
@@ -69,7 +72,7 @@ export class TestomatApi {
           },
         },
       },
-    })) as any;
+    }));
 
     if (res.status !== expectedStatus) {
       throw new Error(
@@ -83,6 +86,7 @@ export class TestomatApi {
   }
 
   async createSettedCountOfTests(
+    token: string,
     suiteId: string,
     countOfTestsToCreate: number,
     expectedStatus: number,
@@ -92,7 +96,7 @@ export class TestomatApi {
     for (let i = 0; i < countOfTestsToCreate; i++) {
       const testName = `Test_case_${i + 1}`;
 
-      const test = await this.createTestCase(suiteId, testName, expectedStatus);
+      const test = await this.createTestCase(token, suiteId, testName, expectedStatus);
 
       createdTests.push(test.title);
     }
@@ -100,14 +104,14 @@ export class TestomatApi {
     return createdTests;
   }
 
-  async deleteSuiteById(suiteId: string, expectedStatus: number) {
-    this.I.haveRequestHeaders({
-      Authorization: this.token,
+  async deleteSuiteById(token: string, suiteId: string, expectedStatus: number) {
+    I.haveRequestHeaders({
+      Authorization: token,
     });
 
-    const response = (await this.I.sendDeleteRequest(
+    const response = (await I.sendDeleteRequest(
       `/${this.projectId}/suites/${suiteId}`,
-    )) as any;
+    ));
 
     if (response.status !== expectedStatus) {
       throw new Error(
@@ -118,14 +122,14 @@ export class TestomatApi {
     return response;
   }
 
-  async deleteRunById(runId: string, expectedStatus: number) {
-    this.I.haveRequestHeaders({
-      Authorization: this.token,
+  async deleteRunById(token: string, runId: string, expectedStatus: number) {
+    I.haveRequestHeaders({
+      Authorization: token,
     });
 
-    const response = (await this.I.sendDeleteRequest(
+    const response = (await I.sendDeleteRequest(
       `/${this.projectId}/runs/${runId}`,
-    )) as any;
+    ));
 
     if (response.status !== expectedStatus) {
       throw new Error(
@@ -136,3 +140,8 @@ export class TestomatApi {
     return response;
   }
 }
+
+module.exports = new TestomatApi();
+module.exports.TestomatApi = TestomatApi;
+
+export {};

@@ -1,7 +1,8 @@
 import { timeouts } from "../data/timeouts";
-import { BasePage } from "./base.page";
 
-export class ManualRunPage extends BasePage {
+const { I } = inject();
+
+class ManualRunPage {
   readonly passedButton: CodeceptJS.Locator = locate(".cp-Panel-toggle button").withText("Passed");
   readonly failedButton: CodeceptJS.Locator = locate(".cp-Panel-toggle button").withText("Failed");
   readonly finishRunButton: CodeceptJS.Locator = locate("button").withText("Finish Run");
@@ -31,16 +32,16 @@ export class ManualRunPage extends BasePage {
   async selectStatus(status: string) {
     const button = status === "passed" ? this.passedButton : this.failedButton;
 
-    this.I.waitForElement(button, timeouts.SHORT);
-    this.I.seeElement(button);
-    this.I.click(button);
+    I.waitForElement(button, timeouts.SHORT);
+    I.seeElement(button);
+    I.click(button);
   }
 
   async openTestCase(testCaseName: string) {
     const locator = this.generateTestCaseLocator(testCaseName);
-    this.I.waitForElement(locator, timeouts.SHORT);
-    this.I.seeElement(locator);
-    this.I.click(locator);
+    I.waitForElement(locator, timeouts.SHORT);
+    I.seeElement(locator);
+    I.click(locator);
   }
 
   async verifyStatus(userName: string, status: string, statusMessage?: string) {
@@ -49,20 +50,25 @@ export class ManualRunPage extends BasePage {
       status,
       statusMessage,
     );
-    this.I.waitForElement(locator, timeouts.SHORT);
-    this.I.seeElement(locator);
+    I.waitForElement(locator, timeouts.SHORT);
+    I.seeElement(locator);
   }
 
   async fillStatusMessage(message: string) {
-    this.I.waitForElement(this.statusMessageInput, timeouts.SHORT);
-    this.I.seeElement(this.statusMessageInput);
-    this.I.fillField(this.statusMessageInput, message);
-    this.I.pressKey("Tab");
+    I.waitForElement(this.statusMessageInput, timeouts.SHORT);
+    I.seeElement(this.statusMessageInput);
+    I.fillField(this.statusMessageInput, message);
+    I.pressKey("Tab");
   }
 
   async finishRun() {
-    this.I.waitForElement(this.finishRunButton, timeouts.SHORT);
-    this.I.seeElement(this.finishRunButton);
-    this.I.click(this.finishRunButton);
+    I.waitForElement(this.finishRunButton, timeouts.SHORT);
+    I.seeElement(this.finishRunButton);
+    I.click(this.finishRunButton);
   }
 }
+
+module.exports = new ManualRunPage();
+module.exports.ManualRunPage = ManualRunPage;
+
+export {};
