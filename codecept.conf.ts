@@ -19,7 +19,7 @@ export const config: CodeceptJS.MainConfig = {
   helpers: {
     Playwright: {
       browser: "chromium",
-      url: process.env.BASE_URL || "https://testomat.io",
+      url: process.env.BASE_URL,
       show: true,
       trace: false,
       waitForNavigation: "load",

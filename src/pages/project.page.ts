@@ -8,9 +8,6 @@ class ProjectPage {
   }
 
   async openSuiteByName(suiteName: string) {
-    I.refreshPage();
-    I.wait(1);
-    
     const suiteLocator = this.generateSuiteLocator(suiteName);
 
     I.waitForElement(suiteLocator, timeouts.SHORT);

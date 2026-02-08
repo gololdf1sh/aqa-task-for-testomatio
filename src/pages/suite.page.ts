@@ -2,12 +2,9 @@ import { timeouts } from "../data/timeouts";
 const { I, startRunModal } = inject();
 
 class SuitePage {
-  readonly moreOptionsButton: CodeceptJS.Locator = locate(
-    ".ember-basic-dropdown .md-icon-dots-horizontal",
-  );
+  readonly moreOptionsButton: CodeceptJS.Locator = locate(".ember-basic-dropdown .md-icon-dots-horizontal");
   readonly moreOptionsMenu: CodeceptJS.Locator = locate("[data-ember-action]");
-  readonly runTestsButton: CodeceptJS.Locator =
-    locate("button").withText("Run Tests");
+  readonly runTestsButton: CodeceptJS.Locator = locate("button").withText("Run Tests");
 
   async openMoreOptionsMenu() {
     I.waitForElement(this.moreOptionsButton, timeouts.SHORT);

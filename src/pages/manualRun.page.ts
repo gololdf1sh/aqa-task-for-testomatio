@@ -12,15 +12,8 @@ class ManualRunPage {
     return locate(".leading-tight").withText(testCaseName);
   }
 
-  private generateStatusMessageLocator(
-    userName: string,
-    status: string,
-    statusMessage?: string,
-  ) {
-    let locator = locate("li")
-      .withText(status)
-      .withText("by")
-      .withText(userName);
+  private generateStatusMessageLocator(userName: string, status: string, statusMessage?: string) {
+    let locator = locate("li").withText(status).withText("by").withText(userName);
 
     if (statusMessage) {
       locator = locator.withText("with").withText(statusMessage);
@@ -45,11 +38,7 @@ class ManualRunPage {
   }
 
   async verifyStatus(userName: string, status: string, statusMessage?: string) {
-    const locator = this.generateStatusMessageLocator(
-      userName,
-      status,
-      statusMessage,
-    );
+    const locator = this.generateStatusMessageLocator(userName, status, statusMessage);
     I.waitForElement(locator, timeouts.SHORT);
     I.seeElement(locator);
   }

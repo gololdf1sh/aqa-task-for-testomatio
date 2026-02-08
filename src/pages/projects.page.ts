@@ -3,9 +3,7 @@ import { timeouts } from "../data/timeouts";
 const { I } = inject();
 
 class ProjectsPage {
-  readonly signedInSuccessfullyMessage: CodeceptJS.Locator = locate(".common-flash-success").withText(
-      "Signed in successfully",
-    );;
+  readonly signedInSuccessfullyMessage: CodeceptJS.Locator = locate(".common-flash-success").withText("Signed in successfully");
 
   async checkThatSignedInSuccessfullyMessageIsVisible() {
     I.waitForElement(this.signedInSuccessfullyMessage, timeouts.SHORT);
