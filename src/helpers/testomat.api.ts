@@ -2,12 +2,18 @@ const { I } = inject();
 
 class TestomatApi {
   private projectId: string;
+  private token: string;
 
   constructor() {
     this.projectId = process.env.TESTOMAT_PROJECT_ID;
+    this.token = '';
   }
 
-  async login(generalApiToken: string, expectedStatus: number) {
+  setToken(token: string) {
+    this.token = token;
+  }
+
+  async login(generalApiToken: string, expectedStatus: number = 200) {
     const response = await I.sendPostRequest("/login", {
       api_token: generalApiToken,
     });
@@ -19,9 +25,9 @@ class TestomatApi {
     return response;
   }
 
-  async createSuite(token: string, suiteName: string, expectedStatus: number) {
+  async createSuite(suiteName: string, expectedStatus: number = 200) {
     I.haveRequestHeaders({
-      Authorization: token,
+      Authorization: this.token,
     });
 
     const response = await I.sendPostRequest(`/${this.projectId}/suites`, {
@@ -41,9 +47,9 @@ class TestomatApi {
     return response;
   }
 
-  async createTestCase(token: string, suiteId: string, testName: string, expectedStatus: number) {
+  async createTestCase(suiteId: string, testName: string, expectedStatus: number = 200) {
     I.haveRequestHeaders({
-      Authorization: token,
+      Authorization: this.token,
     });
 
     const res = await I.sendPostRequest(`/${this.projectId}/tests`, {
@@ -73,13 +79,13 @@ class TestomatApi {
     };
   }
 
-  async createSettedCountOfTests(token: string, suiteId: string, countOfTestsToCreate: number, expectedStatus: number) {
+  async createSettedCountOfTests(suiteId: string, countOfTestsToCreate: number, expectedStatus: number = 200) {
     const createdTests = [];
 
     for (let i = 0; i < countOfTestsToCreate; i++) {
       const testName = `Test_case_${i + 1}`;
 
-      const test = await this.createTestCase(token, suiteId, testName, expectedStatus);
+      const test = await this.createTestCase(suiteId, testName, expectedStatus);
 
       createdTests.push(test.title);
     }
@@ -87,9 +93,9 @@ class TestomatApi {
     return createdTests;
   }
 
-  async deleteSuiteById(token: string, suiteId: string, expectedStatus: number) {
+  async deleteSuiteById(suiteId: string, expectedStatus: number = 200) {
     I.haveRequestHeaders({
-      Authorization: token,
+      Authorization: this.token,
     });
 
     const response = await I.sendDeleteRequest(`/${this.projectId}/suites/${suiteId}`);
@@ -101,9 +107,9 @@ class TestomatApi {
     return response;
   }
 
-  async deleteRunById(token: string, runId: string, expectedStatus: number) {
+  async deleteRunById(runId: string, expectedStatus: number = 200) {
     I.haveRequestHeaders({
-      Authorization: token,
+      Authorization: this.token,
     });
 
     const response = await I.sendDeleteRequest(`/${this.projectId}/runs/${runId}`);
